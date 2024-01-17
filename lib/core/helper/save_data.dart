@@ -1,7 +1,10 @@
+import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../data/user_model.dart';
 
 class CacheHelper {
   static late SharedPreferences sharedPreferences;
+
   static initShared() async {
     sharedPreferences = await SharedPreferences.getInstance();
   }
@@ -26,5 +29,20 @@ class CacheHelper {
 
   static Future<bool?> removeData({required String key}) async {
     return await sharedPreferences.remove(key);
+  }
+
+  static bool isLogin() {
+    return CacheHelper.getData(key: "user") == null;
+  }
+
+  static UserModel getUser() {
+    var s = CacheHelper.getData(key: "user");
+
+    UserModel user = UserModel.fromJson(json.decode(s));
+    return user;
+  }
+
+  logOut() {
+    removeData(key: "user");
   }
 }

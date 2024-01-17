@@ -1,13 +1,15 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:naraakom/core/app_export.dart';
+import 'package:naraakom/core/data/firebase/user.dart';
+import 'package:naraakom/core/helper/functions/common.dart';
 import 'package:naraakom/core/utils/extension/widget.dart';
 import 'package:naraakom/features/login/presentation/manager/login_cubit.dart';
 import '../../../../../core/utils/app_strings.dart';
 import '../../../../../core/widgets/custom_app_bottom.dart';
 import '../../../../../core/widgets/custom_text_form_field.dart';
-import '../../../../home/presentation/home.dart';
-import '../../../../register/presentation/register_screen.dart';
+import '../../../../register/register_screen.dart';
 
 class LoginScreenBody extends StatelessWidget {
   const LoginScreenBody({super.key});
@@ -20,7 +22,20 @@ class LoginScreenBody extends StatelessWidget {
         padding: const EdgeInsets.all(20.0),
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
-          child: BlocBuilder<LoginCubit, LoginState>(
+          child: BlocConsumer<LoginCubit, LoginState>(
+            listener: (context, state) {
+              if(state is LoginErrState){
+                showDialog(context: context, builder: (context) => Dialog(
+                  child:  Text(state.message).paddingAll(10),
+
+                ),);
+              }
+              if(state is LoginSuccessState){
+                showDialog(context: context, builder: (context) => Dialog(
+                  child:  Text(state.message).paddingAll(10),
+                ),);
+              }
+            },
             builder: (context, state) {
               var cubit = LoginCubit.get(context);
               return Form(
@@ -66,6 +81,14 @@ class LoginScreenBody extends StatelessWidget {
                             textInputType: TextInputType.visiblePassword,
                             hintText: AppStrings.password,
                             controller: cubit.pass,
+                            suffix: cubit.lookPass
+                                ? Icon(Icons.remove_red_eye).onTap(() {
+                                    cubit.lookPassChange();
+                                  })
+                                : Icon(Icons.remove_red_eye_outlined).onTap(() {
+                                    cubit.lookPassChange();
+                                  }),
+                            obscureText: cubit.lookPass,
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return AppStrings.pleasePassword;
@@ -91,12 +114,15 @@ class LoginScreenBody extends StatelessWidget {
                             ],
                           ),
                           10.height,
-                          CustomAppBottom(
-                            label: AppStrings.login,
-                            onPressed: () {
-                             HomeScreen().launch(context);
-                            },
-                          )
+                          state is LoginLoadingGetDataUserState
+                              ? Center(child: CircularProgressIndicator())
+                              : CustomAppBottom(
+                                  label: AppStrings.login,
+                                  onPressed: () {
+                                    cubit.key.currentState!.validate();
+                                    cubit.login(context);
+                                  },
+                                )
                         ]),
                   ],
                 ),

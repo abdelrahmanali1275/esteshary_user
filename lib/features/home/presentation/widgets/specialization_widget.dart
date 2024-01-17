@@ -7,27 +7,30 @@ import '../../../../core/utils/app_colors.dart';
 
 class SpecializationWidget extends StatelessWidget {
   const SpecializationWidget({
-    super.key, required this.title, required this.subtitle, required this.color,
+    super.key, required this.name, required this.specialist, required this.url,
   });
 
-  final String title;
-  final String subtitle;
-  final Color color;
+  final String name;
+  final String specialist;
+  final String url;
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: (){
-        NewReservationScreen().launch(context);
-      },
-      child: ListTile(
-        title: Text(title,style: CustomTextStyles.bodyLargeBlack900Bold20),
-        subtitle: Text(
-          subtitle,
-          style: CustomTextStyles.bodyLargeBlack900Bold20,),
-        leading: CircleAvatar(
-          backgroundColor: color,
+    return Card(
+      color: AppColors.cyan5002,
+      child: InkWell(
+        onTap: (){
+          NewReservationScreen().launch(context);
+        },
+        child: ListTile(
+          title: Text(name,style: CustomTextStyles.bodyLargeBlack900Bold20),
+          subtitle: Text(
+            specialist,
+            style: CustomTextStyles.fontSize18,),
+          leading: CircleAvatar(
+           backgroundImage: NetworkImage(url),
+          ),
         ),
       ),
-    );
+    ).paddingSymmetric(horizontal: 20);
   }
 }

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:naraakom/core/app_export.dart';
@@ -8,9 +9,25 @@ import 'package:naraakom/features/home/presentation/manager/home_cubit.dart';
 import '../../core/utils/app_colors.dart';
 import '../home/presentation/widgets/specialization_list.dart';
 
-class EnterDoctor extends StatelessWidget {
+class EnterDoctor extends StatefulWidget {
   const EnterDoctor({super.key});
 
+  @override
+  State<EnterDoctor> createState() => _EnterDoctorState();
+}
+
+class _EnterDoctorState extends State<EnterDoctor> {
+  List<QueryDocumentSnapshot> data = [];
+  void initState() {
+    getData();
+    super.initState();
+  }
+   getData() async {
+    QuerySnapshot querySnapshot= await FirebaseFirestore.instance.collection('Doctors').get();
+    setState(() {
+      data.addAll(querySnapshot.docs);
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +46,7 @@ class EnterDoctor extends StatelessWidget {
                   fontSize: 40),
             ),
             30.height,
-            SpecializationList(),
+            SpecializationList(data: data,),
           ],
         ),
       ),

@@ -1,27 +1,34 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../manager/home_cubit.dart';
 import 'specialization_widget.dart';
 
 class SpecializationList extends StatelessWidget {
-  const SpecializationList({super.key});
+  const SpecializationList({super.key, required this.data});
+
+  final List<QueryDocumentSnapshot> data;
+
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: BlocBuilder<HomeCubit, HomeState>(
-        builder: (context, state) {
-          var cubit = HomeCubit().get(context);
-          return ListView.builder(
-            itemBuilder: (context, index) => SpecializationWidget(
-              title: cubit.doctorName[index],
-              subtitle: cubit.specialization[index],
-              color: cubit.color[index],
-            ),
-            itemCount: cubit.doctorName.length,
-            scrollDirection: Axis.vertical,
-          );
+      child: BlocConsumer<HomeCubit, HomeState>(
+        listener: (context, state) {
+          print(state);
         },
+        builder: (context, state) {
+              return ListView.builder(
+                itemBuilder: (context, index) =>
+                    SpecializationWidget(
+                      name: data[index]['name'],
+                      specialist: data[index]['specialist'],
+                      url: data[index]['photo'],
+                    ),
+                itemCount:data.length,
+                scrollDirection: Axis.vertical,
+              );
+                  },
       ),
     );
   }

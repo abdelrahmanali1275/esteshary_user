@@ -2,28 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:naraakom/core/app_export.dart';
 import 'package:naraakom/core/utils/app_colors.dart';
 import 'package:naraakom/core/utils/extension/widget.dart';
-import 'package:naraakom/core/widgets/custom_app_bar.dart';
-import 'package:naraakom/core/widgets/custom_text_form_field.dart';
-import 'package:naraakom/core/widgets/custom_text_form_field.dart';
-import 'package:naraakom/core/widgets/custom_text_form_field.dart';
-import 'package:naraakom/core/widgets/custom_text_form_field.dart';
-import 'package:naraakom/core/widgets/custom_text_form_field.dart';
-import 'package:naraakom/core/widgets/custom_text_form_field.dart';
-import 'package:naraakom/core/widgets/custom_text_form_field.dart';
 import 'package:naraakom/core/widgets/custom_text_form_field.dart';
 import 'package:naraakom/features/home/presentation/home.dart';
-
 import '../../../core/widgets/custom_app_bottom.dart';
-import '../../../core/widgets/custom_text_form_field.dart';
 
-class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({Key? key}) : super(key: key);
+class RegisterScreen2 extends StatefulWidget {
+  const RegisterScreen2({Key? key}) : super(key: key);
 
   @override
-  _RegisterScreenState createState() => _RegisterScreenState();
+  _RegisterScreen2State createState() => _RegisterScreen2State();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _RegisterScreen2State extends State<RegisterScreen2> {
   TextEditingController age = TextEditingController();
   TextEditingController name = TextEditingController();
   TextEditingController email = TextEditingController();
@@ -141,7 +131,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       },
                     ),
                     10.height,
-                     Text(
+                    Text(
                       "* اختياري",
                       style: CustomTextStyles.bodyMediumPrimary,
                     ),
@@ -152,7 +142,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       controller: optionalWhatsApp,
                     ),
                     20.height,
-
                     SizedBox(
                       child: DropdownButtonFormField(
                           isDense: true,
@@ -163,15 +152,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(13)),
                           ),
-                          hint:  Text("النوع",style: CustomTextStyles.bodyMediumBlack20001),
-                          items:  [
+                          hint: Text("النوع",
+                              style: CustomTextStyles.bodyMediumBlack20001),
+                          items: [
                             DropdownMenuItem(
                               value: "ذكر",
-                              child: Text("ذكر",style: CustomTextStyles.bodyMediumBlack20001),
+                              child: Text("ذكر",
+                                  style: CustomTextStyles.bodyMediumBlack20001),
                             ),
                             DropdownMenuItem(
                               value: "انثي",
-                              child: Text("انثي",style: CustomTextStyles.bodyMediumBlack20001),
+                              child: Text("انثي",
+                                  style: CustomTextStyles.bodyMediumBlack20001),
                             ),
                           ],
                           onChanged: (v) {

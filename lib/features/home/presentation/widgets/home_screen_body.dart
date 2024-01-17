@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:naraakom/core/app_export.dart';
 import 'package:naraakom/core/utils/app_strings.dart';
 import 'package:naraakom/core/utils/extension/widget.dart';
@@ -6,12 +8,14 @@ import 'package:naraakom/features/home/presentation/widgets/specialization_list.
 import 'package:naraakom/features/new_reservation/enter_doctor.dart';
 import '../../../resume_reservation/presentaion/resume_reservation_screen.dart';
 import '../../../talk_about_you/presentation/talk_about_you.dart';
+import '../manager/home_cubit.dart';
 import 'home_screen_circle_widget.dart';
 
 class HomeScreenBody extends StatelessWidget {
-  const HomeScreenBody({super.key});
+  const HomeScreenBody({super.key, required this.data});
 
-  @override
+  final List<QueryDocumentSnapshot> data ;
+
   Widget build(BuildContext context) {
     return Column(
       children: [
@@ -25,28 +29,26 @@ class HomeScreenBody extends StatelessWidget {
                 image: AppAssets.hagz,
                 text: AppStrings.resumeReservation,
                 function: () {
-                  ResumeReservationScreen().launch(context);
+                  const ResumeReservationScreen().launch(context);
                 },
               ),
               HomeScreenCircleWidget(
                 image: AppAssets.chat,
                 text: AppStrings.needHelp,
-                function: () {
-
-                },
+                function: () {},
               ),
               HomeScreenCircleWidget(
                 image: AppAssets.newHagz,
                 text: AppStrings.newReservation,
                 function: () {
-                  EnterDoctor().launch(context);
+                  const EnterDoctor().launch(context);
                 },
               ),
               HomeScreenCircleWidget(
                 image: AppAssets.newHagz,
                 text: AppStrings.talkAboutYou,
                 function: () {
-                  TalkAboutYou().launch(context);
+                  const TalkAboutYou().launch(context);
                 },
               ),
             ],
@@ -58,7 +60,7 @@ class HomeScreenBody extends StatelessWidget {
           style: CustomTextStyles.bodyLargeBlackFont40,
         ),
         30.height,
-        SpecializationList(),
+         SpecializationList(data: data,),
       ],
     );
   }

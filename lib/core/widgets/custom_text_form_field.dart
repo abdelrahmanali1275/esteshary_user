@@ -27,7 +27,7 @@ class CustomTextFormField extends StatelessWidget {
     this.borderDecoration,
     this.fillColor,
     this.filled = true,
-    this.validator, this.padding, this.maxLength,
+    this.validator, this.padding, this.maxLength, this.onChanged,
   }) : super(
           key: key,
         );
@@ -75,6 +75,7 @@ class CustomTextFormField extends StatelessWidget {
   final Color? fillColor;
 
   final bool? filled;
+  final Function(dynamic)? onChanged;
 
   final FormFieldValidator<String>? validator;
 
@@ -95,6 +96,7 @@ class CustomTextFormField extends StatelessWidget {
           controller: controller,
           // focusNode: focusNode ,
           // autofocus: autofocus!,
+
           style: textStyle ?? CustomTextStyles.bodyLargeGray80003,
           obscureText: obscureText!,
           textInputAction: textInputAction,
@@ -103,10 +105,12 @@ class CustomTextFormField extends StatelessWidget {
           decoration: decoration,
           validator: validator,
           maxLength: maxLength,
+          onChanged: onChanged,
         ),
       );
   InputDecoration get decoration => InputDecoration(
         hintText: hintText ?? "",
+
         hintStyle: hintStyle ??CustomTextStyles.bodyLargeBluegray20007 ,
         prefixIcon: prefix,
         prefixIconConstraints: prefixConstraints,
