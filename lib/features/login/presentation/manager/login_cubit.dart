@@ -22,15 +22,14 @@ class LoginCubit extends Cubit<LoginState> {
   static LoginCubit get(context) => BlocProvider.of(context);
   TextEditingController email = TextEditingController();
   TextEditingController pass = TextEditingController();
-  bool isLogin = false;
-  bool lookPass= true;
+
   var key = GlobalKey<FormState>();
 
   AuthHelper authHelper = AuthHelper();
   FirebaseUser firebaseUser = FirebaseUser();
-
-  lookPassChange(){
-    lookPass==true? lookPass = false:lookPass=true;
+  bool lookPass = true;
+  lookPassChange() {
+    lookPass == true ? lookPass = false : lookPass = true;
     emit(LookPassChangeState());
   }
 
@@ -38,17 +37,18 @@ class LoginCubit extends Cubit<LoginState> {
     emit(LoginLoadingGetDataUserState());
     var resLogin = await authHelper.login(email: email.text, pass: pass.text);
     resLogin.fold((l) {
-      emit(LoginErrState("لم يتم العثور على بيانات يرجى ادخال بيانات صحيحة"));
+      emit(LoginErrState(l.message));
     }, (r) async {
-      // var resUser = await firebaseUser.getUserData(r);
-      //   emit(LoginSuccessState(r));
-      // resUser.fold((l) {
-      //   emit(LoginErrState(l.message));
-      // }, (r) {
-      //   CacheHelper.saveData(key: "user", value: json.encode(r.toJson()));
-        HomeScreen().launch(context,isNewTask: true);
+      var resUser = await firebaseUser.getUserData(r);
+      resUser.fold((l) {
+        emit(LoginErrState(l.message));
+      }, (r) {
+        CacheHelper.saveData(key: "user", value: json.encode(r.toJson()));
+        email.clear();
+        pass.clear();
+        HomeScreen().launch(context, isNewTask: true);
         emit(LoginSuccessState("تم تسجيل الدخول بنجاح"));
-      // });
+      });
     });
   }
 }

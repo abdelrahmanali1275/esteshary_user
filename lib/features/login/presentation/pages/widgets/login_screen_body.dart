@@ -4,12 +4,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:naraakom/core/app_export.dart';
 import 'package:naraakom/core/data/firebase/user.dart';
 import 'package:naraakom/core/helper/functions/common.dart';
+import 'package:naraakom/core/utils/extension/bool.dart';
 import 'package:naraakom/core/utils/extension/widget.dart';
 import 'package:naraakom/features/login/presentation/manager/login_cubit.dart';
 import '../../../../../core/utils/app_strings.dart';
 import '../../../../../core/widgets/custom_app_bottom.dart';
 import '../../../../../core/widgets/custom_text_form_field.dart';
+import '../../../../../core/widgets/show_toast.dart';
 import '../../../../register/register_screen.dart';
+import 'login_screen_email.dart';
+import 'login_screen_pass.dart';
 
 class LoginScreenBody extends StatelessWidget {
   const LoginScreenBody({super.key});
@@ -24,16 +28,11 @@ class LoginScreenBody extends StatelessWidget {
           physics: const BouncingScrollPhysics(),
           child: BlocConsumer<LoginCubit, LoginState>(
             listener: (context, state) {
-              if(state is LoginErrState){
-                showDialog(context: context, builder: (context) => Dialog(
-                  child:  Text(state.message).paddingAll(10),
-
-                ),);
+              if (state is LoginErrState) {
+                showToast(text: state.message, state: ToastStates.error);
               }
-              if(state is LoginSuccessState){
-                showDialog(context: context, builder: (context) => Dialog(
-                  child:  Text(state.message).paddingAll(10),
-                ),);
+              if (state is LoginSuccessState) {
+                showToast(text: state.message, state: ToastStates.success);
               }
             },
             builder: (context, state) {
@@ -61,41 +60,14 @@ class LoginScreenBody extends StatelessWidget {
                             style: CustomTextStyles.bodyMediumGrey600,
                           ),
                           10.height,
-                          CustomTextFormField(
-                            hintText: AppStrings.email,
-                            controller: cubit.email,
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return AppStrings.pleaseEmail;
-                              }
-                              return null;
-                            },
-                          ),
+                          LoginScreenEmail(cubit: cubit),
                           10.height,
                           Text(
                             AppStrings.password,
                             style: CustomTextStyles.bodyMediumGrey600,
                           ),
                           10.height,
-                          CustomTextFormField(
-                            textInputType: TextInputType.visiblePassword,
-                            hintText: AppStrings.password,
-                            controller: cubit.pass,
-                            suffix: cubit.lookPass
-                                ? Icon(Icons.remove_red_eye).onTap(() {
-                                    cubit.lookPassChange();
-                                  })
-                                : Icon(Icons.remove_red_eye_outlined).onTap(() {
-                                    cubit.lookPassChange();
-                                  }),
-                            obscureText: cubit.lookPass,
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return AppStrings.pleasePassword;
-                              }
-                              return null;
-                            },
-                          ),
+                          LoginScreenPass(cubit: cubit),
                           Row(
                             children: [
                               Text(
@@ -119,8 +91,9 @@ class LoginScreenBody extends StatelessWidget {
                               : CustomAppBottom(
                                   label: AppStrings.login,
                                   onPressed: () {
-                                    cubit.key.currentState!.validate();
-                                    cubit.login(context);
+                                    if (cubit.key.currentState!.validate()) {
+                                      cubit.login(context);
+                                    }
                                   },
                                 )
                         ]),

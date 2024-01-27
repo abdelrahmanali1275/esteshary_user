@@ -35,7 +35,7 @@ class CacheHelper {
     return CacheHelper.getData(key: "user") == null;
   }
 
-  static UserModel getUser() {
+  static UserModel  getUser() {
     var s = CacheHelper.getData(key: "user");
 
     UserModel user = UserModel.fromJson(json.decode(s));

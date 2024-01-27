@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:naraakom/core/app_export.dart';
+import 'package:naraakom/core/data/doctor_model.dart';
 import 'package:naraakom/core/utils/app_strings.dart';
 import 'package:naraakom/core/widgets/custom_app_bar.dart';
 import 'package:naraakom/features/home/presentation/manager/home_cubit.dart';
@@ -17,17 +18,7 @@ class EnterDoctor extends StatefulWidget {
 }
 
 class _EnterDoctorState extends State<EnterDoctor> {
-  List<QueryDocumentSnapshot> data = [];
-  void initState() {
-    getData();
-    super.initState();
-  }
-   getData() async {
-    QuerySnapshot querySnapshot= await FirebaseFirestore.instance.collection('Doctors').get();
-    setState(() {
-      data.addAll(querySnapshot.docs);
-    });
-  }
+  List<DoctorModel> data = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(

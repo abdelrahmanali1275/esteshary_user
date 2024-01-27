@@ -2,6 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:naraakom/core/app_export.dart';
 import 'package:naraakom/core/utils/extension/widget.dart';
+import 'package:naraakom/features/login/presentation/pages/login_screen.dart';
+import 'package:naraakom/features/register/presentation/widgets/register_age.dart';
+import 'package:naraakom/features/register/presentation/widgets/register_education.dart';
+import 'package:naraakom/features/register/presentation/widgets/register_email.dart';
+import 'package:naraakom/features/register/presentation/widgets/register_gender.dart';
+import 'package:naraakom/features/register/presentation/widgets/register_job.dart';
+import 'package:naraakom/features/register/presentation/widgets/register_name.dart';
+import 'package:naraakom/features/register/presentation/widgets/register_pass.dart';
+import 'package:naraakom/features/register/presentation/widgets/whatsapp_number.dart';
 
 import '../../../../config/theme/custom_text_style.dart';
 import '../../../../core/utils/app_assets.dart';
@@ -9,6 +18,7 @@ import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_strings.dart';
 import '../../../../core/widgets/custom_app_bottom.dart';
 import '../../../../core/widgets/custom_text_form_field.dart';
+import '../../../../core/widgets/show_toast.dart';
 import '../manager/register_cubit.dart';
 
 class RegisterScreenBody extends StatelessWidget {
@@ -23,20 +33,10 @@ class RegisterScreenBody extends StatelessWidget {
       child: BlocConsumer<RegisterCubit, RegisterState>(
         listener: (context, state) {
           if (state is RegisterErrState) {
-            showDialog(
-              context: context,
-              builder: (context) => Dialog(
-                child: Text(state.message).paddingAll(10),
-              ),
-            );
+            showToast(text: state.message, state: ToastStates.error);
           }
           if (state is RegisterSuccessState) {
-            showDialog(
-              context: context,
-              builder: (context) => Dialog(
-                child: Text(state.message).paddingAll(10),
-              ),
-            );
+            showToast(text: state.message, state: ToastStates.success);
           }
         },
         builder: (context, state) {
@@ -64,119 +64,49 @@ class RegisterScreenBody extends StatelessWidget {
                     style: CustomTextStyles.bodyMediumGrey600,
                   ),
                   10.height,
-                  CustomTextFormField(
-                    textInputType: TextInputType.visiblePassword,
-                    hintText: 'الاسم',
-                    controller: cubit.name,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return "ادخل الاسم من فضلك";
-                      }
-                      return null;
-                    },
-                  ),
+                  RegisterName(cubit: cubit),
                   10.height,
                   Text(
                     AppStrings.email,
                     style: CustomTextStyles.bodyMediumGrey600,
                   ),
                   10.height,
-                  CustomTextFormField(
-                    textInputType: TextInputType.emailAddress,
-                    hintText: 'البريد الالكترونى',
-                    controller: cubit.email,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return "ادخل البريد الالكترونى من فضلك";
-                      }
-                      return null;
-                    },
-                  ),
+                  RegisterEmail(cubit: cubit),
                   10.height,
                   Text(
                     AppStrings.password,
                     style: CustomTextStyles.bodyMediumGrey600,
                   ),
                   10.height,
-                  CustomTextFormField(
-                    textInputType: TextInputType.visiblePassword,
-                    hintText: 'كلمة السر',
-                    controller: cubit.pass,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return "ادخل كلمة السر من فضلك";
-                      }
-                      return null;
-                    },
-                  ),
+                  RegisterPass(cubit: cubit),
                   10.height,
                   Text(
                     "العمر",
                     style: CustomTextStyles.bodyMediumGrey600,
                   ),
                   10.height,
-                  CustomTextFormField(
-                    textInputType: TextInputType.visiblePassword,
-                    hintText: 'العمر',
-                    controller: cubit.age,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return "ادخل العمر من فضلك";
-                      }
-                      return null;
-                    },
-                  ),
+                  RegisterAge(cubit: cubit),
                   10.height,
                   Text(
                     "المستوى التعليمى",
                     style: CustomTextStyles.bodyMediumGrey600,
                   ),
                   10.height,
-                  CustomTextFormField(
-                    textInputType: TextInputType.visiblePassword,
-                    hintText: 'المستوى التعليمى',
-                    controller: cubit.education,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return "ادخل المستوى التعليمى من فضلك";
-                      }
-                      return null;
-                    },
-                  ),
+                  RegisterEducation(cubit: cubit),
                   10.height,
                   Text(
                     "الوظيفة",
                     style: CustomTextStyles.bodyMediumGrey600,
                   ),
                   10.height,
-                  CustomTextFormField(
-                    textInputType: TextInputType.visiblePassword,
-                    hintText: 'الوظيفة',
-                    controller: cubit.job,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return "ادخل الوظيفة من فضلك";
-                      }
-                      return null;
-                    },
-                  ),
+                  RegisterJob(cubit: cubit),
                   10.height,
                   Text(
                     "رقم الواتساب",
                     style: CustomTextStyles.bodyMediumGrey600,
                   ),
                   10.height,
-                  CustomTextFormField(
-                    textInputType: TextInputType.visiblePassword,
-                    hintText: 'رقم الواتساب',
-                    controller: cubit.requiredWhatsApp,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return "ادخل رقم الواتساب من فضلك";
-                      }
-                      return null;
-                    },
-                  ),
+                  WhatsAppNumber(cubit: cubit),
                   10.height,
                   Text(
                     "* اختياري",
@@ -189,47 +119,21 @@ class RegisterScreenBody extends StatelessWidget {
                   ),
                   10.height,
                   CustomTextFormField(
-                    textInputType: TextInputType.visiblePassword,
+                    textInputType: TextInputType.number,
                     hintText: 'رقم واتساب اخر',
                     controller: cubit.optionalWhatsApp,
                   ),
                   10.height,
-                  SizedBox(
-                    child: DropdownButtonFormField(
-                        isDense: true,
-                        dropdownColor: AppColors.whiteA700,
-                        borderRadius: BorderRadius.circular(13),
-                        decoration: InputDecoration(
-                          fillColor: Colors.white,
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(13)),
-                        ),
-                        hint: Text("النوع",
-                            style: CustomTextStyles.bodyMediumBlack20001),
-                        items: [
-                          DropdownMenuItem(
-                            value: "ذكر",
-                            child: Text("ذكر",
-                                style: CustomTextStyles.bodyMediumBlack20001),
-                          ),
-                          DropdownMenuItem(
-                            value: "انثي",
-                            child: Text("انثي",
-                                style: CustomTextStyles.bodyMediumBlack20001),
-                          ),
-                        ],
-                        onChanged: (v) {
-                          cubit.gender = v!;
-                        }),
-                  ),
+                  RegisterGender(cubit: cubit),
                   20.height,
                   state is RegisterLoadingGetDataUserState
                       ? Center(child: CircularProgressIndicator())
                       : CustomAppBottom(
                           label: AppStrings.login,
-                          onPressed: () {
-                            cubit.key.currentState!.validate();
-                            cubit.register();
+                          onPressed: () async {
+                            if (cubit.key.currentState!.validate()) {
+                              await cubit.register(context);
+                            }
                           },
                         ),
                 ]),
@@ -239,3 +143,19 @@ class RegisterScreenBody extends StatelessWidget {
     );
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

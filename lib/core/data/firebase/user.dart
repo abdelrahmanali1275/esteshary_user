@@ -45,14 +45,14 @@ class FirebaseUser {
       return Left(ErrorFailure(message: e.toString()));
     }
   }
-  Future<Either<ErrorFailure, List<DoctorModel>>> getAllDoctor()async{
+
+  Future<Either<ErrorFailure, List<DoctorModel>>> getAllDoctor() async {
     try {
       var res = await FirebaseFirestore.instance.collection("Doctors").get();
-      return Right( List<DoctorModel>.from((res.docs as List).map((e) => DoctorModel.fromJson(e))));
+      return Right(List<DoctorModel>.from(
+          (res.docs as List).map((e) => DoctorModel.fromJson(e))));
     } catch (e) {
       return Left(ErrorFailure(message: e.toString()));
     }
   }
 }
-
-

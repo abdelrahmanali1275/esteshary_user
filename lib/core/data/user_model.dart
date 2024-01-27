@@ -20,7 +20,8 @@ class UserModel {
         required this.job,
         required this.requiredWhatsApp,
         required this.optionalWhatsApp,
-        required this.gender});
+        required this.gender
+      });
 
   Map<String, dynamic> toJson() {
     return <String, dynamic>{

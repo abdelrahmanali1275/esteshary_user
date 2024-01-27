@@ -23,9 +23,6 @@ class SpecializationWidget extends StatelessWidget {
         },
         child: ListTile(
           title: Text(name,style: CustomTextStyles.bodyLargeBlack900Bold20),
-          subtitle: Text(
-            specialist,
-            style: CustomTextStyles.fontSize18,),
           leading: CircleAvatar(
            backgroundImage: NetworkImage(url),
           ),

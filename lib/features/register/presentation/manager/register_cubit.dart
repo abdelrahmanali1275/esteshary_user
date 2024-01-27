@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:naraakom/core/data/firebase/auth.dart';
+import 'package:naraakom/core/utils/extension/widget.dart';
+import 'package:naraakom/features/login/presentation/pages/login_screen.dart';
 
 import '../../../../core/data/firebase/user.dart';
 import '../../../../core/data/user_model.dart';
@@ -24,9 +26,13 @@ class RegisterCubit extends Cubit<RegisterState> {
   var key = GlobalKey<FormState>();
   AuthHelper firebaseAuthHelper = AuthHelper();
   FirebaseUser firebaseUser = FirebaseUser();
+  bool lookPass = true;
+  lookPassChange() {
+    lookPass == true ? lookPass = false : lookPass = true;
+    emit(LookPassChangeState());
+  }
 
-  register() async {
-    print("object");
+  register(context) async {
     // if (key.currentState!.validate()) {
     //   // message validate
     //   RegisterErrState("l.message");
@@ -44,7 +50,7 @@ class RegisterCubit extends Cubit<RegisterState> {
 
     res.fold(
       (l) => emit(
-        RegisterErrState("برجاء ادخال بيانات صحيحة"),
+        RegisterErrState(l.message),
       ),
       (r) async {
         var set = await firebaseUser.setUserData(UserModel(
@@ -58,9 +64,20 @@ class RegisterCubit extends Cubit<RegisterState> {
             requiredWhatsApp: requiredWhatsApp.text,
             optionalWhatsApp: optionalWhatsApp.text,
             gender: gender));
+
         set.fold((l) {
-          RegisterErrState("هذا المستخدم موجود بالفعل");
+          RegisterErrState(l.message);
         }, (r) {
+          age.clear();
+          email.clear();
+          pass.clear();
+          education.clear();
+          job.clear();
+          requiredWhatsApp.clear();
+          optionalWhatsApp.clear();
+          name.clear();
+          gender = '';
+          Login().launch(context, isNewTask: true);
           emit(
             RegisterSuccessState("تم التسجيل بنجاح"),
           );

@@ -7,13 +7,13 @@ import '../../helper/error/failure.dart';
 class AuthHelper {
   FirebaseUser firebaseUser = FirebaseUser();
 
-   String id='';
+  String id = '';
   Future<Either<ErrorFailure, String>> login(
       {required String email, required String pass}) async {
     try {
       var res = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: pass);
-      id=res.user!.uid;
+      id = res.user!.uid;
       return Right(res.user!.uid);
     } catch (e) {
       return Left(ErrorFailure(message: e.toString()));
@@ -32,5 +32,4 @@ class AuthHelper {
       return Left(ErrorFailure(message: e.toString()));
     }
   }
-
 }

@@ -5,6 +5,7 @@ import 'package:meta/meta.dart';
 import 'package:naraakom/core/data/firebase/user.dart';
 import '../../../../core/data/doctor_model.dart';
 import '../../../../core/helper/error/failure.dart';
+
 part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
