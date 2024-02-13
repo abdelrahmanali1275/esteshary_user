@@ -73,7 +73,6 @@ class TalkAboutCubit extends Cubit<TalkAboutState> {
     }
     await recorder.openRecorder();
   }
-  
 
   recording() async {
     if (recorder.isRecording) {

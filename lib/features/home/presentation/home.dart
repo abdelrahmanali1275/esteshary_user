@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:naraakom/core/utils/app_strings.dart';
@@ -17,28 +16,20 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<QueryDocumentSnapshot> data = [];
 
-  getData()async{
-    QuerySnapshot querySnapshot= await FirebaseFirestore.instance.collection('Doctors').get();
-    data.addAll(querySnapshot.docs);
-    setState(() {
-    });
-  }
   void initState(){
-    getData();
+
     super.initState();
   }
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeCubit(),
+      create: (context) => HomeCubit()..allDoctorSpecialist(),
       child: Scaffold(
-        //drawer: Drawer(),
         appBar: CustomAppBar(
           text: AppStrings.home,
         ),
         drawer: ProfileDrawer(),
-        body: HomeScreenBody(data: data,),
+        body: HomeScreenBody(),
       ),
     );
   }

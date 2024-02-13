@@ -21,7 +21,6 @@ class TalkAboutYouBody extends StatelessWidget {
       child: SingleChildScrollView(
         child: BlocConsumer<TalkAboutCubit, TalkAboutState>(
           listener: (context, state) {
-            print(state);
             if (state is RecordSuccessState) {
               showToast(text: state.message, state: ToastStates.success);
             }
@@ -62,33 +61,32 @@ class TalkAboutYouBody extends StatelessWidget {
                     onPressed: () {
                       showDialog(
                         context: context,
-                        builder: (context) => BlocProvider(
-                          create: (context) => TalkAboutCubit()..initRecorder(),
-                          child: AlertDialog(
-                            backgroundColor: AppColors.whiteA700,
-                            title: Column(
-                              children: [
-                                Text(
-                                  " اضغط هنا لتسجيل حالتك صوتيا",
-                                  style: CustomTextStyles.bodyMediumBlack20001,
-                                ),
-                                RecordScreen(
-                                  cubit: cubit,
-                                ),
-                                Row(
-                                  children: [
-                                    Text("متابعة").onTap(() {
-                                      Navigator.pop(context);
-                                    }),
-                                    20.width,
-                                    Text(
-                                      "الغاء",
-                                      style: TextStyle(color: Colors.red),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
+                        builder: (context) => AlertDialog(
+                          backgroundColor: AppColors.whiteA700,
+                          title: Column(
+                            children: [
+                              Text(
+                                " اضغط هنا لتسجيل حالتك صوتيا",
+                                style: CustomTextStyles.bodyMediumBlack20001,
+                              ),
+                              RecordScreen(
+                                cubit: cubit,
+                              ),
+                              Row(
+                                children: [
+                                  Text("متابعة").onTap(() {
+                                    print(cubit.getDownloadAudioURL());
+                                    cubit.recorder.closeRecorder();
+                                    Navigator.pop(context);
+                                  }),
+                                  20.width,
+                                  Text(
+                                    "الغاء",
+                                    style: TextStyle(color: Colors.red),
+                                  )
+                                ],
+                              ),
+                            ],
                           ),
                         ),
                       );

@@ -15,10 +15,7 @@ class TalkAboutYou extends StatelessWidget {
       appBar: CustomAppBar(
         text: AppStrings.talkAboutYou,
       ),
-      body: BlocProvider(
-        create: (context) => TalkAboutCubit(),
-        child: TalkAboutYouBody(),
-      ),
+      body: TalkAboutYouBody(),
     );
   }
 }

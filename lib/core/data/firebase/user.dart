@@ -1,8 +1,13 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
+import 'package:naraakom/core/app_export.dart';
 import 'package:naraakom/core/data/doctor_model.dart';
 
+import '../../../features/new_reservation/Timer.dart';
 import '../../helper/error/failure.dart';
+import '../../helper/save_data.dart';
 import '../user_model.dart';
 
 class FirebaseUser {
@@ -38,7 +43,6 @@ class FirebaseUser {
           .collection("Users")
           .doc(userModel.userId)
           .set(userModel.toJson());
-
 // add message
       return Right("nmmmmmm");
     } catch (e) {
@@ -46,11 +50,48 @@ class FirebaseUser {
     }
   }
 
-  Future<Either<ErrorFailure, List<DoctorModel>>> getAllDoctor() async {
+  Future<Either<ErrorFailure, List<Timer>>> getDayTimer(
+      DoctorModel doctorModel, DateTime addRequestDay, daysOfRequest) async {
     try {
-      var res = await FirebaseFirestore.instance.collection("Doctors").get();
-      return Right(List<DoctorModel>.from(
-          (res.docs as List).map((e) => DoctorModel.fromJson(e))));
+      var res = await FirebaseFirestore.instance
+          .collection("Doctors")
+          .doc("${doctorModel.doctorId}")
+          .collection("Timer")
+          .where("date", isEqualTo: addRequestDay.format())
+          .get();
+      res.docs.forEach((element) {
+        element.data();
+      });
+      print(addRequestDay.format());
+      return Right(
+          res.docs.map<Timer>((e) => Timer.fromJson(e.data())).toList());
+    } catch (e) {
+      return Left(ErrorFailure(message: e.toString()));
+    }
+  }
+
+  Future<Either<ErrorFailure, String>> addRequest(
+      {required DateTime? day,
+      required String from,
+      required String to,
+      required DoctorModel doctorModel,
+      required daysOfRequest}) async {
+    var id = Random().nextInt(99999);
+    try {
+      await FirebaseFirestore.instance.collection("Requests").doc("$id").set({
+        "user": CacheHelper.getUser().toJson(),
+        "id": id,
+        "from": from,
+        "to": to,
+        "doctor": doctorModel.toJson(),
+        "createAt": DateTime.now(),
+        "state": "في انتظار الدفع",
+        "day": daysOfRequest[day!.weekday - 1],
+        "date": day.format(),
+        "zoomLink": "",
+        "notes": "",
+      });
+      return Right("تم حجز الميعاد بنجاح برجاء الدفع لتاكيد الحجز");
     } catch (e) {
       return Left(ErrorFailure(message: e.toString()));
     }

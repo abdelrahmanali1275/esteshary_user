@@ -6,9 +6,13 @@ class DoctorModel {
   final String photo;
   final String specialist;
 
-  DoctorModel({required this.doctorId, required this.name, required this.email, required this.password, required this.photo, required this.specialist});
-
-
+  DoctorModel(
+      {required this.doctorId,
+      required this.name,
+      required this.email,
+      required this.password,
+      required this.photo,
+      required this.specialist});
 
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
@@ -16,8 +20,8 @@ class DoctorModel {
       'doctorId': doctorId,
       'name': name,
       'password': password,
-      'specialist':specialist,
-      'photo':photo,
+      'specialist': specialist,
+      'photo': photo,
     };
   }
 

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
+import '../../../../../main.dart';
 // import 'package:luttas/Notifications_chat_screen.dart';
 //
 // import 'main.dart';
@@ -40,22 +42,22 @@ class NotificationApi {
     );
     const settings = InitializationSettings(android: android, iOS: ios);
 
-    await _notifications.initialize(
-      settings,
-      onDidReceiveNotificationResponse: (details) {
-
-        // navigatorGlobalKey?.currentState?.push(MaterialPageRoute(
-        //   builder: (context) => NotificationsChatScreen(
-        //       userId: details.payload??""),
-        // ));
-
-
-      },
-
-      // onDidReceiveNotificationResponse:(payload )async{
-      //   _noNotifications.add('');
-      // }
-    );
+    // await _notifications.initialize(
+    //   settings,
+    //   onDidReceiveNotificationResponse: (details) {
+    //
+    //     // navigatorGlobalKey?.currentState?.push(MaterialPageRoute(
+    //     //   builder: (context) => NotificationsChatScreen(
+    //     //       userId: details.payload??""),
+    //     // ));
+    //
+    //
+    //   },
+    //
+    //   // onDidReceiveNotificationResponse:(payload )async{
+    //   //   _noNotifications.add('');
+    //   // }
+    // );
   }
 
 // onSelectNotification(payload)async{

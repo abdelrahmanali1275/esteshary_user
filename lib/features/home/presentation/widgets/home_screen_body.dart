@@ -5,6 +5,7 @@ import 'package:naraakom/core/app_export.dart';
 import 'package:naraakom/core/helper/save_data.dart';
 import 'package:naraakom/core/utils/app_strings.dart';
 import 'package:naraakom/core/utils/extension/widget.dart';
+import 'package:naraakom/core/widgets/show_toast.dart';
 import 'package:naraakom/features/chat/presentation/pages/chat_screen.dart';
 import 'package:naraakom/features/home/presentation/widgets/specialization_list.dart';
 import 'package:naraakom/features/new_reservation/enter_doctor.dart';
@@ -14,9 +15,9 @@ import '../manager/home_cubit.dart';
 import 'home_screen_circle_widget.dart';
 
 class HomeScreenBody extends StatelessWidget {
-  const HomeScreenBody({super.key, required this.data});
-
-  final List<QueryDocumentSnapshot> data;
+  const HomeScreenBody({
+    super.key,
+  });
 
   Widget build(BuildContext context) {
     return Column(
@@ -68,6 +69,9 @@ class HomeScreenBody extends StatelessWidget {
         30.height,
         BlocBuilder<HomeCubit, HomeState>(
           builder: (context, state) {
+            if (state is HomeSpecialistErr) {
+              showToast(text: state.err, state: ToastStates.error);
+            }
             if (state is HomeSpecialistSuccess) {
               return SpecializationList(
                 data: state.doctor,

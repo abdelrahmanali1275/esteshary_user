@@ -4,7 +4,6 @@ import 'package:naraakom/core/utils/app_strings.dart';
 import 'package:naraakom/core/widgets/custom_app_bottom.dart';
 import 'package:naraakom/features/payment/presentaion/widgets/payment_alert_dialog.dart';
 
-
 class PaymentScreenBody extends StatelessWidget {
   const PaymentScreenBody({super.key});
 
