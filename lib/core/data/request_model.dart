@@ -14,6 +14,7 @@ class RequestModel {
   final DateTime createdAt;
   final DoctorModel doctor;
   final UserModel user;
+  final int num;
 
   factory RequestModel.fromJson(Map<String, dynamic> json) {
     return RequestModel(
@@ -28,6 +29,7 @@ class RequestModel {
       createdAt: json['createAt'].toDate(),
       doctor: DoctorModel.fromJson(json['doctor']),
       user: UserModel.fromJson(json['user']),
+      num: json['num'],
     );
   }
 
@@ -42,5 +44,7 @@ class RequestModel {
       required this.to,
       required this.createdAt,
       required this.doctor,
-      required this.user});
+      required this.user,
+      required this.num,
+      });
 }

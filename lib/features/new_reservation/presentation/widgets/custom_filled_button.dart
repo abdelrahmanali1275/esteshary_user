@@ -11,21 +11,25 @@ class CustomFilledButton extends StatelessWidget {
   const CustomFilledButton({
     super.key,
     required this.from,
-    required this.to,
+    required this.to,required this.num, required this.active,
   });
 
   final String from;
   final String to;
+  final int num;
+  final bool active;
 
   @override
   Widget build(BuildContext context) {
     return FilledButton(
+      style: ButtonStyle(
+        backgroundColor:active? MaterialStatePropertyAll(AppColors.primary):MaterialStatePropertyAll(AppColors.gray500)
+      ),
       onPressed: () {
-        Navigator.pop(context);
-        showDialog(
+          Navigator.pop(context);
+          active? showDialog(
             context: context,
-            builder: (context) =>
-                BlocBuilder<NewReservationCubit, NewReservationState>(
+            builder: (context) => BlocBuilder<NewReservationCubit, NewReservationState>(
                   builder: (context, state) {
                     return AlertDialog(
                       backgroundColor: AppColors.whiteA700,
@@ -47,7 +51,7 @@ class CustomFilledButton extends StatelessWidget {
                             onPressed: () async {
                               await context
                                   .read<NewReservationCubit>()
-                                  .addRequest(from, to);
+                                  .addRequest(from, to,num);
                               Navigator.pop(context);
                               PaymentScreen().launch(
                                 context,
@@ -58,7 +62,8 @@ class CustomFilledButton extends StatelessWidget {
                       ],
                     );
                   },
-                ));
+                )
+        ):showToast(text: "الموعد محجوز بالفعل يرجى اختيار موعد اخر", state: ToastStates.error);
       },
       child: Text("$from : $to"),
     );

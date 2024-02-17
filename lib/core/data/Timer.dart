@@ -6,6 +6,7 @@ class Timer {
     this.to,
     this.date,
     this.day,
+    this.num,
   });
 
   Timer.fromJson(dynamic json) {
@@ -15,6 +16,7 @@ class Timer {
     to = json['to'];
     day = json['day'];
     date = json["date"];
+    num= json["num"];
   }
 
   String? doctorId;
@@ -23,6 +25,7 @@ class Timer {
   String? to;
   String? day;
   String? date;
+  int?num;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -32,6 +35,7 @@ class Timer {
     map['to'] = to;
     map['day'] = day;
     map["date"] = date;
+    map["num"]=num;
     return map;
   }
 }

@@ -83,7 +83,9 @@ class TalkAboutYouBody extends StatelessWidget {
                                   Text(
                                     "الغاء",
                                     style: TextStyle(color: Colors.red),
-                                  )
+                                  ).onTap((){
+                                    Navigator.pop(context);
+                                  })
                                 ],
                               ),
                             ],

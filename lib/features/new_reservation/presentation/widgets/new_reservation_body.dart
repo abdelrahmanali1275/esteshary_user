@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:naraakom/core/app_export.dart';
 import 'package:naraakom/core/widgets/show_toast.dart';
-import 'package:naraakom/features/new_reservation/Timer.dart';
+import 'package:naraakom/core/data/Timer.dart';
 import 'package:naraakom/features/new_reservation/presentation/manager/new_reservation_cubit.dart';
 import 'custom_time_button.dart';
 

@@ -5,7 +5,7 @@ import 'package:dartz/dartz.dart';
 import 'package:naraakom/core/app_export.dart';
 import 'package:naraakom/core/data/doctor_model.dart';
 
-import '../../../features/new_reservation/Timer.dart';
+import '../Timer.dart';
 import '../../helper/error/failure.dart';
 import '../../helper/save_data.dart';
 import '../user_model.dart';
@@ -35,9 +35,7 @@ class FirebaseUser {
     }
   }
 
-  Future<Either<ErrorFailure, String>> setUserData(
-    UserModel userModel,
-  ) async {
+  Future<Either<ErrorFailure, String>> setUserData(UserModel userModel,) async {
     try {
       final res = await FirebaseFirestore.instance
           .collection("Users")
@@ -50,8 +48,8 @@ class FirebaseUser {
     }
   }
 
-  Future<Either<ErrorFailure, List<Timer>>> getDayTimer(
-      DoctorModel doctorModel, DateTime addRequestDay, daysOfRequest) async {
+  Future<Either<ErrorFailure, List<Timer>>> getDayTimer(DoctorModel doctorModel,
+      DateTime addRequestDay, daysOfRequest) async {
     try {
       var res = await FirebaseFirestore.instance
           .collection("Doctors")
@@ -70,19 +68,23 @@ class FirebaseUser {
     }
   }
 
-  Future<Either<ErrorFailure, String>> addRequest(
-      {required DateTime? day,
-      required String from,
-      required String to,
-      required DoctorModel doctorModel,
-      required daysOfRequest}) async {
+  Future<Either<ErrorFailure, String>> addRequest({
+    required DateTime? day,
+    required String from,
+    required String to,
+    required DoctorModel doctorModel,
+    required daysOfRequest,
+    required int num,
+  }) async {
     var id = Random().nextInt(99999);
+
     try {
       await FirebaseFirestore.instance.collection("Requests").doc("$id").set({
         "user": CacheHelper.getUser().toJson(),
         "id": id,
         "from": from,
         "to": to,
+        "num": num,
         "doctor": doctorModel.toJson(),
         "createAt": DateTime.now(),
         "state": "في انتظار الدفع",
@@ -90,6 +92,10 @@ class FirebaseUser {
         "date": day.format(),
         "zoomLink": "",
         "notes": "",
+      });
+      await FirebaseFirestore.instance.collection("Doctors").doc(
+          "${doctorModel.doctorId}").collection("Timer").doc('$num').update({
+        "active":false,
       });
       return Right("تم حجز الميعاد بنجاح برجاء الدفع لتاكيد الحجز");
     } catch (e) {

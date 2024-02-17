@@ -36,17 +36,6 @@ class RecordScreen extends StatelessWidget {
                         },
                         child: cubit.recorder.isRecording
                             ? Icon(Icons.stop)
-                            //     .onTap((){
-                            //       // Navigator.pop(context);
-                            //       // showDialog(context: context, builder: (context) => AlertDialog(
-                            //       //   backgroundColor: AppColors.whiteA700,
-                            //       //   title: Column(
-                            //       //     children: [
-                            //       //       Text("هل تريد حفظ الملف الصوتي",style: CustomTextStyles.bodyLargeBlack900,),
-                            //       //     ],
-                            //       //   ),
-                            //       // ));
-                            // })
                             : Icon(Icons.mic)),
                   ],
                 );

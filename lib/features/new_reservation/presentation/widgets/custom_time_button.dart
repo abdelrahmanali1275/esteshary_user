@@ -25,7 +25,8 @@ class CustomTimeButton extends StatelessWidget {
                 builder: (context, state) {
                   if (state is NewReservationLoading) {
                     return Center(child: CircularProgressIndicator());
-                  }  if (state is GetTimeLoaded) {
+                  }
+                  if (state is GetTimeLoaded) {
                     return Container(
                       width: double.maxFinite,
                       decoration: AppDecoration.fillWhiteA,
@@ -44,7 +45,9 @@ class CustomTimeButton extends StatelessWidget {
                                       ? CustomFilledButton(
                                           from: '${state.timer[index].from}',
                                           to: '${state.timer[index].to}',
-                                        )
+                                          num: state.timer[index].num!,
+                                    active:state.timer[index].active!
+                                  )
                                       : Center(
                                           child: Text(
                                               "لا يوجد مواعيد متاحة لهذا اليوم",
@@ -64,7 +67,7 @@ class CustomTimeButton extends StatelessWidget {
                       ),
                     );
                   }
-                  if(state is GetTimeErr){
+                  if (state is GetTimeErr) {
                     print(state.message);
                     return Center(child: CircularProgressIndicator());
                   }
@@ -73,9 +76,7 @@ class CustomTimeButton extends StatelessWidget {
               ),
             );
           },
-          child:
-
-          context.read<NewReservationCubit>().day2 == null
+          child: context.read<NewReservationCubit>().day2 == null
               ? Text("اليوم", style: CustomTextStyles.bodyMediumBlack20001)
               : Text(
                   "${context.read<NewReservationCubit>().day2} ${context.read<NewReservationCubit>().addRequestDay!.format()} ",

@@ -15,29 +15,31 @@ class EnterDoctor extends StatelessWidget {
       appBar: const CustomAppBar(
         text: AppStrings.specialestAvailable,
       ),
-      body: Column(
-        children: [
-          Text(AppStrings.specialestAvailable,
-              style: CustomTextStyles.bodyLargeBlackFont40),
-          30.height,
-          BlocProvider(
-            create: (context) => EnterDoctorCubit()..allDoctorSpecialist(),
-            child: BlocBuilder<EnterDoctorCubit, EnterDoctorState>(
-              builder: (context, state) {
-                if (state is AllDoctorErr) {
-                  return Text(state.err);
-                }
-                if (state is AllDoctorSuccess) {
-                  return SpecializationList(
-                    data: state.data,
-                  );
-                } else {
-                  return CircularProgressIndicator();
-                }
-              },
+      body: Center(
+        child: Column(
+          children: [
+            Text(AppStrings.specialestAvailable,
+                style: CustomTextStyles.bodyLargeBlackFont40),
+            30.height,
+            BlocProvider(
+              create: (context) => EnterDoctorCubit()..allDoctorSpecialist(),
+              child: BlocBuilder<EnterDoctorCubit, EnterDoctorState>(
+                builder: (context, state) {
+                  if (state is AllDoctorErr) {
+                    return Text(state.err);
+                  }
+                  if (state is AllDoctorSuccess) {
+                    return SpecializationList(
+                      data: state.data,
+                    );
+                  } else {
+                    return CircularProgressIndicator();
+                  }
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

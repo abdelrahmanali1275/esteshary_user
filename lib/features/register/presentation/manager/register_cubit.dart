@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:naraakom/core/data/firebase/auth.dart';
@@ -53,6 +54,7 @@ class RegisterCubit extends Cubit<RegisterState> {
         RegisterErrState(l.message),
       ),
       (r) async {
+        String fcnToken= await FirebaseMessaging.instance.getToken()??"";
         var set = await firebaseUser.setUserData(UserModel(
             userId: r,
             name: name.text,
@@ -63,7 +65,7 @@ class RegisterCubit extends Cubit<RegisterState> {
             job: job.text,
             requiredWhatsApp: requiredWhatsApp.text,
             optionalWhatsApp: optionalWhatsApp.text,
-            gender: gender));
+            gender: gender, fcn_token: fcnToken));
 
         set.fold((l) {
           RegisterErrState(l.message);

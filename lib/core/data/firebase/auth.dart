@@ -21,9 +21,9 @@ class AuthHelper {
   }
 
   Future<Either<ErrorFailure, String>> register(
-    email,
-    password,
-  ) async {
+      email,
+      password,
+      ) async {
     try {
       var res = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);

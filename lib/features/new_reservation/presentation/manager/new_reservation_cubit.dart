@@ -9,7 +9,7 @@ import 'package:naraakom/core/data/doctor_model.dart';
 import 'package:naraakom/core/helper/save_data.dart';
 import 'package:naraakom/core/utils/app_strings.dart';
 import '../../../../core/data/firebase/user.dart';
-import '../../Timer.dart';
+import '../../../../core/data/Timer.dart';
 
 part 'new_reservation_state.dart';
 
@@ -35,15 +35,15 @@ class NewReservationCubit extends Cubit<NewReservationState> {
   var day2;
   DateTime? addRequestDay;
 
-  addRequest(from, to) async {
+  addRequest(from, to, num) async {
     emit(AddRequestLoading());
-    var res = await firebaseUser.addRequest(
-      day: addRequestDay,
-      daysOfRequest: daysOfRequest,
-      doctorModel: doctorModel!,
-      from: from,
-      to: to,
-    );
+    var res =
+    await firebaseUser.addRequest(
+        day: addRequestDay,
+        daysOfRequest: daysOfRequest,
+        doctorModel: doctorModel!,
+        from: from,
+        to: to, num: num);
     res.fold((l) => emit(AddRequestErr(message: l.message)), (r) {
       emit(AddRequestLoaded(message: r));
     });

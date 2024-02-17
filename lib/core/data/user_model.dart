@@ -9,19 +9,21 @@ class UserModel {
   final String requiredWhatsApp;
   final String optionalWhatsApp;
   final String gender;
+  final String fcn_token;
 
-  UserModel(
-      {required this.userId,
-        required this.name,
-        required this.email,
-        required this.password,
-        required this.age,
-        required this.education,
-        required this.job,
-        required this.requiredWhatsApp,
-        required this.optionalWhatsApp,
-        required this.gender
-      });
+  UserModel({
+    required this.userId,
+    required this.name,
+    required this.email,
+    required this.password,
+    required this.age,
+    required this.education,
+    required this.job,
+    required this.requiredWhatsApp,
+    required this.optionalWhatsApp,
+    required this.gender,
+    required this.fcn_token,
+  });
 
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
@@ -35,6 +37,7 @@ class UserModel {
       'age': age,
       'education': education,
       'gender': gender,
+      "fcn_token": fcn_token
     };
   }
 
@@ -50,6 +53,7 @@ class UserModel {
       requiredWhatsApp: json['requiredWhatsApp'].toString(),
       gender: json["gender"],
       email: json["email"],
+      fcn_token: json["fcn_token"],
     );
   }
 }
