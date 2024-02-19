@@ -16,7 +16,7 @@ class CustomFilledButton extends StatelessWidget {
 
   final String from;
   final String to;
-  final int num;
+  final String num;
   final bool active;
 
   @override

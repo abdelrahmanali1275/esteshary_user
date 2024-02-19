@@ -74,11 +74,11 @@ class FirebaseUser {
     required String to,
     required DoctorModel doctorModel,
     required daysOfRequest,
-    required int num,
+    required String num,
   }) async {
     var id = Random().nextInt(99999);
 
-    try {
+
       await FirebaseFirestore.instance.collection("Requests").doc("$id").set({
         "user": CacheHelper.getUser().toJson(),
         "id": id,
@@ -98,8 +98,6 @@ class FirebaseUser {
         "active":false,
       });
       return Right("تم حجز الميعاد بنجاح برجاء الدفع لتاكيد الحجز");
-    } catch (e) {
-      return Left(ErrorFailure(message: e.toString()));
     }
-  }
+
 }

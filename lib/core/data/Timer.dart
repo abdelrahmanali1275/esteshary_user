@@ -25,7 +25,7 @@ class Timer {
   String? to;
   String? day;
   String? date;
-  int?num;
+  String?num;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

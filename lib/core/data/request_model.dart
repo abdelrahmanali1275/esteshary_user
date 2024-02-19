@@ -14,7 +14,7 @@ class RequestModel {
   final DateTime createdAt;
   final DoctorModel doctor;
   final UserModel user;
-  final int num;
+  final String num;
 
   factory RequestModel.fromJson(Map<String, dynamic> json) {
     return RequestModel(
