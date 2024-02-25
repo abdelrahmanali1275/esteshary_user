@@ -76,9 +76,7 @@ class FirebaseUser {
     required daysOfRequest,
     required String num,
   }) async {
-    var id = Random().nextInt(99999);
-
-
+        var id =Random().nextInt(999999);
       await FirebaseFirestore.instance.collection("Requests").doc("$id").set({
         "user": CacheHelper.getUser().toJson(),
         "id": id,
